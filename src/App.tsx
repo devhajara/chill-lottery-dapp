@@ -92,7 +92,7 @@ const LotterySection = () => {
   const { publicKey, connected, signTransaction } = useWallet();
   const [lottery, setLottery] = useState<any>(null);
   const [showConfetti, setShowConfetti] = useState(false);
-  // const [status, setStatus] = useState(""); // Unused
+  
 
 
   const isSunday = new Date().getUTCDay() === 0;
@@ -394,8 +394,7 @@ function AdminPanel() {
   const [pastWinners, setPastWinners] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState('');
   const [showManualPicker, setShowManualPicker] = useState(false);
-  // const [lotteryId, setLotteryId] = useState<number | null>(null);
-
+ 
 
   useEffect(() => {
     if (!isAdmin) return;

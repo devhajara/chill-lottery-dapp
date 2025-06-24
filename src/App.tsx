@@ -92,7 +92,8 @@ const LotterySection = () => {
   const { publicKey, connected, signTransaction } = useWallet();
   const [lottery, setLottery] = useState<any>(null);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [status, setStatus] = useState<string | null>(null);
+  // const [status, setStatus] = useState(""); // Unused
+
 
   const isSunday = new Date().getUTCDay() === 0;
 
@@ -103,7 +104,7 @@ const LotterySection = () => {
         const data = await res.json();
         setLottery(data);
       } catch (err) {
-        setStatus("Failed to load lottery");
+        // Failed to load lottery
       }
     };
 
@@ -393,7 +394,8 @@ function AdminPanel() {
   const [pastWinners, setPastWinners] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState('');
   const [showManualPicker, setShowManualPicker] = useState(false);
-  const [lotteryId, setLotteryId] = useState<number | null>(null);
+  // const [lotteryId, setLotteryId] = useState<number | null>(null);
+
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -928,4 +930,21 @@ const ShareButton = () => {
 
 export default App;
 
+// Store the lotteryId in a state variable in the AdminPanel component
+// This implementation assumes you add: const [lotteryId, setLotteryId] = useState<number | null>(null);
+// Remove the previous dummy function and use the state setter instead.
+
+// If you want to keep setLotteryId as a function for compatibility:
+let _setLotteryId: React.Dispatch<React.SetStateAction<number | null>> | null = null;
+function setLotteryId(id: number | null) {
+  if (_setLotteryId) {
+    _setLotteryId(id);
+  }
+}
+
+// In AdminPanel, after defining useState:
+const [_unusedLotteryId, _setLotteryIdLocal] = useState<number | null>(null);
+_setLotteryId = _setLotteryIdLocal;
+
+// Now setLotteryId will update the state as expected.
 

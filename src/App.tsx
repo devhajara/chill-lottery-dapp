@@ -830,7 +830,8 @@ import { toast } from "react-toastify";
 const ShareButton = () => {
   const [open, setOpen] = useState(false);
 
-  const shareUrl = "https://chillandwin.xyz"; // 🔁 Update this to your actual URL
+  const shareUrl = "https://chill-lottery-dapp-sodv-7bhozbmod-devhajaras-projects.vercel.app";
+
   const encodedUrl = encodeURIComponent(shareUrl);
   const message = encodeURIComponent("🎯 I'm playing Chill & Win Lottery! Join me and test your luck 🔥");
 

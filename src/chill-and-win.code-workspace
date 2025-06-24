@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "chill-and-win",
+			"path": ".."
+		},
+		{
+			"name": "chill-and-win-backend",
+			"path": "../../chill-and-win-backend"
+		}
+	],
+	"settings": {}
+}

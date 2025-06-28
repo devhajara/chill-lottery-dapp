@@ -36,7 +36,7 @@ import axios from 'axios';
 
 // ⬇️ Then comes your first component
 // Removed duplicate App component declaration to fix redeclaration error
-const baseUrl = import.meta.env.VITE_BACKEND_URL;
+const baseUrl = "https://chill-and-win.up.railway.app";
 
 
 const RPC_URL = "https://mainnet.helius-rpc.com/?api-key=2a7a5dbd-6f5a-4f09-b31d-f8967b43ec9f";

@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL; // Your backend URL
+const API_BASE_URL = "https://chill-and-win.up.railway.app"; // Your backend URL
 
 export async function getCurrentLottery() {
     const res = await fetch(`${API_BASE_URL}/api/lottery`);

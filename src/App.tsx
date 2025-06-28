@@ -49,7 +49,7 @@ const CountdownTimer = () => {
   useEffect(() => {
     const fetchEndTime = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/api/lottery`);
+        const res = await fetch(`${baseUrl}/api/lottery`);
         const data = await res.json();
         const end = new Date(data.endDate).getTime();
         setEndDate(end);
@@ -102,7 +102,7 @@ const LotterySection = () => {
   useEffect(() => {
     const fetchLottery = async () => {
       try {
-        const res = await fetch("${baseUrl}/api/api/lottery");
+        const res = await fetch("${baseUrl}/api/lottery");
         const data = await res.json();
         setLottery(data);
       } catch (err) {

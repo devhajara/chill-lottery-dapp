@@ -942,9 +942,3 @@ function setLotteryId(id: number | null) {
   }
 }
 
-// In AdminPanel, after defining useState:
-const [_unusedLotteryId, _setLotteryIdLocal] = useState<number | null>(null);
-_setLotteryId = _setLotteryIdLocal;
-
-// Now setLotteryId will update the state as expected.
-

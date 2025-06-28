@@ -36,7 +36,7 @@ import axios from 'axios';
 
 // ⬇️ Then comes your first component
 // Removed duplicate App component declaration to fix redeclaration error
-const baseUrl = "https://chill-and-win.up.railway.app";
+const baseUrl = "https://chill-and-win.up.railway.app/api";
 
 
 const RPC_URL = "https://mainnet.helius-rpc.com/?api-key=2a7a5dbd-6f5a-4f09-b31d-f8967b43ec9f";
@@ -49,7 +49,7 @@ const CountdownTimer = () => {
   useEffect(() => {
     const fetchEndTime = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/lottery`);
+        const res = await fetch(`${baseUrl}/lottery`);
         const data = await res.json();
         const end = new Date(data.endDate).getTime();
         setEndDate(end);
@@ -102,7 +102,7 @@ const LotterySection = () => {
   useEffect(() => {
     const fetchLottery = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/lottery`);
+        const res = await fetch(`${baseUrl}/lottery`);
         const data = await res.json();
         setLottery(data);
       } catch (err) {
@@ -144,7 +144,7 @@ const LotterySection = () => {
       const sig = await connection.sendRawTransaction(signed.serialize());
       await connection.confirmTransaction(sig, "confirmed");
 
-      await axios.post(`${baseUrl}/api/entry`, {
+      await axios.post(`${baseUrl}/entry`, {
         wallet: publicKey.toBase58(),
         lotteryId: lottery.id,
       });
@@ -201,7 +201,7 @@ const WinnersPage = () => {
 
   const fetchWinners = async () => {
     try {
-      const res = await fetch(`${baseUrl}/api/winners`);
+      const res = await fetch(`${baseUrl}/winners`);
       const data = await res.json();
 
       setPastWinners(data.pastWinners || []);
@@ -263,7 +263,7 @@ const Dashboard = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch(`${baseUrl}/api/lottery`);
+      const res = await fetch(`${baseUrl}/lottery`);
       const data = await res.json();
 
       setEntryFee(data.entryFee?.toString() || "N/A");
@@ -403,7 +403,7 @@ function AdminPanel() {
 
     const loadData = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/lottery`);
+        const res = await fetch(`${baseUrl}/lottery`);
         const data = await res.json();
 
         setEntryFee((data.entryFee / 1e9).toFixed(3));
@@ -415,12 +415,12 @@ function AdminPanel() {
         setLotteryActive(end > Date.now());
 
         // Entries
-        const entryRes = await fetch(`${baseUrl}/api/entries/${data.id}`);
+        const entryRes = await fetch(`${baseUrl}/entries/${data.id}`);
         const entryData = await entryRes.json();
         setEntries(entryData.map((e: any) => e.wallet));
 
         // Winners
-        const winnerRes = await fetch(`${baseUrl}/api/winners`);
+        const winnerRes = await fetch(`${baseUrl}/winners`);
         const winnerData = await winnerRes.json();
         setPastWinners(winnerData.map((w: any) => w.wallet));
 
@@ -469,7 +469,7 @@ function AdminPanel() {
         numWinners: parseInt(numWinners),
       };
 
-      const res = await fetch(`${baseUrl}/api/lottery`, {
+      const res = await fetch(`${baseUrl}/lottery`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -489,7 +489,7 @@ function AdminPanel() {
   
   const endLottery = async () => {
     try {
-      const currentLotteryRes = await fetch(`${baseUrl}/api/lottery`);
+      const currentLotteryRes = await fetch(`${baseUrl}/lottery`);
       const currentLottery = await currentLotteryRes.json();
 
       if (!currentLottery || !currentLottery.id) {
@@ -497,7 +497,7 @@ function AdminPanel() {
         return;
       }
 
-      const winnersRes = await fetch(`${baseUrl}/api/winners?lotteryId=${currentLottery.id}`);
+      const winnersRes = await fetch(`${baseUrl}/winners?lotteryId=${currentLottery.id}`);
       const existingWinners = await winnersRes.json();
 
       if (existingWinners.length === 0) {
@@ -516,7 +516,7 @@ function AdminPanel() {
 
   const pickWinners = async () => {
     try {
-      const currentLotteryRes = await fetch(`${baseUrl}/api/lottery`);
+      const currentLotteryRes = await fetch(`${baseUrl}/lottery`);
       const currentLottery = await currentLotteryRes.json();
 
       if (!currentLottery || !currentLottery.id) {
@@ -524,7 +524,7 @@ function AdminPanel() {
         return;
       }
 
-      const declareRes = await fetch(`${baseUrl}/api/winner`, {
+      const declareRes = await fetch(`${baseUrl}/winner`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -719,11 +719,11 @@ const ManualWinnerSelector = ({ isOpen, onClose }: ManualWinnerSelectorProps) =>
 
     const fetchLotteryAndEntries = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/lottery`);
+        const res = await fetch(`${baseUrl}/lottery`);
         const lottery = await res.json();
         setLotteryId(lottery.id);
 
-        const entryRes = await fetch(`${baseUrl}/api/entries/${lottery.id}`);
+        const entryRes = await fetch(`${baseUrl}/entries/${lottery.id}`);
         const data = await entryRes.json();
         setEntries(data.map((e: any) => e.wallet));
       } catch (err) {
@@ -747,7 +747,7 @@ const ManualWinnerSelector = ({ isOpen, onClose }: ManualWinnerSelectorProps) =>
     }
 
     try {
-      const res = await fetch(`${baseUrl}/api/declare-winner`, {
+      const res = await fetch(`${baseUrl}/declare-winner`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

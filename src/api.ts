@@ -1,7 +1,7 @@
-const API_BASE_URL = "https://chill-and-win.up.railway.app"; // Your backend URL
+const API_BASE_URL = "https://chill-and-win.up.railway.app/api"; // Your backend URL
 
 export async function getCurrentLottery() {
-    const res = await fetch(`${API_BASE_URL}/api/lottery`);
+    const res = await fetch(`${API_BASE_URL}/lottery`);
     return res.json();
 }
 
@@ -10,7 +10,7 @@ export async function createLottery(data: {
     duration: number;
     numWinners: number;
 }) {
-    const res = await fetch(`${API_BASE_URL}/api/lottery`, {
+    const res = await fetch(`${API_BASE_URL}/lottery`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -19,7 +19,7 @@ export async function createLottery(data: {
 }
 
 export async function enterLottery(publicKey: string, lotteryId: string) {
-    const res = await fetch(`${API_BASE_URL}/api/entry`, {
+    const res = await fetch(`${API_BASE_URL}/entry`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ wallet: publicKey, lotteryId }),
@@ -28,17 +28,17 @@ export async function enterLottery(publicKey: string, lotteryId: string) {
 }
 
 export async function getEntries(lotteryId: string) {
-    const res = await fetch(`${API_BASE_URL}/api/entries/${lotteryId}`);
+    const res = await fetch(`${API_BASE_URL}/entries/${lotteryId}`);
     return res.json();
 }
 
 export async function getWinners() {
-    const res = await fetch(`${API_BASE_URL}/api/winners`);
+    const res = await fetch(`${API_BASE_URL}/winners`);
     return res.json();
 }
 
 export async function declareWinner(lotteryId: string) {
-    const res = await fetch(`${API_BASE_URL}/api/winner`, {
+    const res = await fetch(`${API_BASE_URL}/winner`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lotteryId }),

@@ -476,6 +476,7 @@ function AdminPanel() {
         autoPick: true,
         numWinners: numWin,
       };
+      console.log("Payload being sent to backend:", payload);
 
       const res = await fetch(`${baseUrl}/lottery`, {
         method: "POST",

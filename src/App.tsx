@@ -471,7 +471,7 @@ function AdminPanel() {
         name: `Lottery - ${new Date().toLocaleDateString()}`,
         startDate,
         endDate,
-        entryFee: parseFloat(fee.toFixed(9)), 
+        entryFee: Number(parseFloat(entryFee).toFixed(9)), 
         lotteryWallet: adminWallet,
         autoPick: true,
         numWinners: numWin,

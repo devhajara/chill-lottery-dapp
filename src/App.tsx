@@ -455,7 +455,15 @@ function AdminPanel() {
 
   const startLottery = async () => {
     try {
-      const durationDays = parseInt(drawDuration) || 7;
+      const fee = parseFloat(entryFee);
+      const durationDays = parseInt(drawDuration);
+      const numWin = parseInt(numWinners);
+
+      if (isNaN(fee) || isNaN(durationDays) || isNaN(numWin)) {
+        toast.error("⚠️ Please enter valid numbers for all fields.");
+        return;
+      }
+
       const startDate = new Date();
       const endDate = new Date(Date.now() + durationDays * 24 * 60 * 60 * 1000);
 
@@ -463,10 +471,10 @@ function AdminPanel() {
         name: `Lottery - ${new Date().toLocaleDateString()}`,
         startDate,
         endDate,
-        entryFee: Math.floor(parseFloat(entryFee) * 1e9), // Convert SOL to lamports
+        entryFee: Math.floor(fee * 1e9), // Convert SOL to lamports
         lotteryWallet: adminWallet,
         autoPick: true,
-        numWinners: parseInt(numWinners),
+        numWinners: numWin,
       };
 
       const res = await fetch(`${baseUrl}/lottery`, {
@@ -486,6 +494,7 @@ function AdminPanel() {
       toast.error("❌ Failed to start lottery");
     }
   };
+  
   
   const endLottery = async () => {
     try {

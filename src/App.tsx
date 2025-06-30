@@ -132,7 +132,8 @@ const LotterySection = () => {
         SystemProgram.transfer({
           fromPubkey: publicKey,
           toPubkey: new PublicKey(lottery.lotteryWallet),
-          lamports: lottery.entryFee,
+          lamports: Math.floor(lottery.entryFee * 1e9),
+
         })
       );
 
@@ -267,7 +268,8 @@ const Dashboard = () => {
       const data = await res.json();
 
       setEntryFee(data.entryFee?.toString() || "N/A");
-      setDuration(data.durationDays?.toString() || "N/A");
+      setDuration(data.drawDuration?.toString() || "N/A");
+
       setNumWinners(data.numWinners?.toString() || "N/A");
     } catch (err) {
       console.error("Error loading dashboard data", err);
@@ -406,7 +408,8 @@ function AdminPanel() {
         const res = await fetch(`${baseUrl}/lottery`);
         const data = await res.json();
 
-        setEntryFee((data.entryFee / 1e9).toFixed(3));
+        setEntryFee(data.entryFee?.toFixed(3) || '0.001'); // ✅ no division needed
+
         setDrawDuration(data.drawDuration?.toString() || "7");
         setNumWinners(data.numWinners?.toString() || "1");
         setLotteryId(data.id);

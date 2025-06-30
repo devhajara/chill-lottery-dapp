@@ -94,7 +94,7 @@ const LotterySection = () => {
   const { publicKey, connected, signTransaction } = useWallet();
   const [lottery, setLottery] = useState<any>(null);
   const [showConfetti, setShowConfetti] = useState(false);
-  
+
 
 
   const isSunday = new Date().getUTCDay() === 0;
@@ -396,7 +396,7 @@ function AdminPanel() {
   const [pastWinners, setPastWinners] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState('');
   const [showManualPicker, setShowManualPicker] = useState(false);
- 
+
 
   useEffect(() => {
     if (!isAdmin) return;
@@ -451,7 +451,7 @@ function AdminPanel() {
 
     loadData();
   }, [isAdmin]);
-  
+
 
   const startLottery = async () => {
     try {
@@ -469,13 +469,16 @@ function AdminPanel() {
 
       const payload = {
         name: `Lottery - ${new Date().toLocaleDateString()}`,
-        startDate,
-        endDate,
-        entryFee: Number(parseFloat(entryFee).toFixed(9)), 
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        entryFee: parseFloat(fee.toFixed(9)),
         lotteryWallet: adminWallet,
         autoPick: true,
         numWinners: numWin,
       };
+      console.log("Final Payload to Backend:", payload);
+      console.log("entryFee typeof:", typeof payload.entryFee, payload.entryFee);
+
       console.log("Payload being sent to backend:", {
         name: payload.name,        // your fields
         startDate: payload.startDate,
@@ -485,7 +488,7 @@ function AdminPanel() {
         autoPick: payload.autoPick,
         numWinners: payload.numWinners,
       });
-      
+
 
       const res = await fetch(`${baseUrl}/lottery`, {
         method: "POST",
@@ -504,8 +507,8 @@ function AdminPanel() {
       toast.error("❌ Failed to start lottery");
     }
   };
-  
-  
+
+
   const endLottery = async () => {
     try {
       const currentLotteryRes = await fetch(`${baseUrl}/lottery`);
@@ -531,7 +534,7 @@ function AdminPanel() {
       toast.error("❌ Failed to end lottery");
     }
   };
-  
+
 
   const pickWinners = async () => {
     try {
@@ -568,8 +571,8 @@ function AdminPanel() {
       toast.error("❌ Failed to declare winners");
     }
   };
-  
-  
+
+
 
   if (!isAdmin) return null;
 
@@ -901,7 +904,7 @@ const ShareButton = () => {
             </a>
           ))}
 
-<button
+          <button
             onClick={() => {
               navigator.clipboard.writeText(window.location.href)
                 .then(() => {

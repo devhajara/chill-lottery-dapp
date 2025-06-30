@@ -522,12 +522,16 @@ function AdminPanel() {
         return;
       }
 
-      const winnersRes = await fetch(`${baseUrl}/winners?lotteryId=${currentLottery.id}`);
-      const existingWinners = await winnersRes.json();
+      const now = new Date().toISOString();
 
-      if (existingWinners.length === 0) {
-        toast.warning("No winners declared yet.");
-      }
+      // ✅ Patch the endDate to now
+      await fetch(`${baseUrl}/lottery/${currentLottery.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ endDate: now }),
+      });
 
       toast.success("🏁 Lottery ended!");
       setLotteryActive(false);
@@ -537,6 +541,7 @@ function AdminPanel() {
       toast.error("❌ Failed to end lottery");
     }
   };
+  
 
 
   const pickWinners = async () => {

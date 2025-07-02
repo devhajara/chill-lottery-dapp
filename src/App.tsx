@@ -514,24 +514,16 @@ function AdminPanel() {
 
   const endLottery = async () => {
     try {
-      const currentLotteryRes = await fetch(`${baseUrl}/lottery`);
-      const currentLottery = await currentLotteryRes.json();
-
-      if (!currentLottery || !currentLottery.id) {
-        toast.error("No active lottery found.");
-        return;
-      }
-
-      const now = new Date().toISOString();
-
-      // ✅ Patch the endDate to now
-      await fetch(`${baseUrl}/lottery/${currentLottery.id}`, {
+      const res = await fetch(`${baseUrl}/lottery/end`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ endDate: now }),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to end lottery");
+      }
 
       toast.success("🏁 Lottery ended!");
       setLotteryActive(false);
@@ -541,6 +533,7 @@ function AdminPanel() {
       toast.error("❌ Failed to end lottery");
     }
   };
+  
   
 
 
